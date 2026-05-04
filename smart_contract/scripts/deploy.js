@@ -1,15 +1,24 @@
-import { ethers } from "hardhat";
+import { ethers } from "ethers";
+import { readFileSync } from "fs";
 
-async function main() {
-  const Transactions = await ethers.getContractFactory("Transactions");
-  const transactions = await Transactions.deploy();
-  await transactions.waitForDeployment();
-  
-  console.log("✅ Contrat déployé à l'adresse :", 
-    await transactions.getAddress());
-}
+const artifact = JSON.parse(
+  readFileSync("./artifacts/contracts/Transactions.sol/Transactions.json", "utf8")
+);
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+const provider = new ethers.JsonRpcProvider(
+  `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
+);
+
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+const factory = new ethers.ContractFactory(
+  artifact.abi,
+  artifact.bytecode,
+  wallet
+);
+
+const contract = await factory.deploy();
+await contract.waitForDeployment();
+
+const address = await contract.getAddress();
+console.log("Contrat deploye a l'adresse :", address);

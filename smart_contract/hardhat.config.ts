@@ -1,4 +1,5 @@
 import { defineConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-ignition-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
