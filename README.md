@@ -1,4 +1,4 @@
-# Project Blockchain — Application Web3.0
+# Project Blockchain — Application Web
 
 Application blockchain pour l'envoi d'Ethereum 
 et interaction avec des smart contracts.
